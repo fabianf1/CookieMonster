@@ -111,11 +111,17 @@ CM.ReplaceNativeGrimoireLaunch = function() {
 CM.ReplaceNativeGrimoireDraw = function() {
 	if (!CM.HasReplaceNativeGrimoireDraw && Game.Objects['Wizard tower'].minigameLoaded) {
 		var minigame = Game.Objects['Wizard tower'].minigame;
+		var lastMagicBarFull = true;
 		CM.Backup.GrimoireDraw = minigame.draw;
 		Game.Objects['Wizard tower'].minigame.draw = function() {
 			CM.Backup.GrimoireDraw();
 			if (CM.Config.GrimoireBar == 1 && minigame.magic < minigame.magicM) {
+				lastMagicBarFull = false;
 				minigame.magicBarTextL.innerHTML += ' (' + CM.Disp.FormatTime(CM.Disp.CalculateGrimoireRefillTime(minigame.magic, minigame.magicM, minigame.magicM)) + ')';
+			} else if (!lastMagicBarFull) {
+				lastMagicBarFull = true;
+				CM.Disp.Flash(3, 'MagicFlash');
+				CM.Disp.PlaySound(CM.Config.MagicSoundURL, 'MagicSound', 'MagicVolume');
 			}
 		}
 		CM.HasReplaceNativeGrimoireDraw = true;
@@ -274,6 +280,10 @@ CM.ConfigDefault = {
 	GardSound: 1,  
 	GardVolume: 100, 
 	GardSoundURL: 'https://freesound.org/data/previews/103/103046_861714-lq.mp3', 
+	MagicFlash: 1, 
+	MagicSound: 1,  
+	MagicVolume: 100, 
+	MagicSoundURL: 'https://freesound.org/data/previews/221/221683_1015240-lq.mp3', 
 	Title: 1, 
 	TooltipBuildUp: 1, 
 	TooltipAmor: 0, 
