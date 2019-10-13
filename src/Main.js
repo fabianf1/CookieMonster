@@ -148,13 +148,13 @@ CM.Loop = function() {
 		}
 
 		// Check for aura change to recalculate buildings prices
-		var hasFierHoard = Game.hasAura('Fierce Hoarder');
-		if (!CM.Cache.HadFierHoard && hasFierHoard) {
-			CM.Cache.HadFierHoard = true;
+		var hasBuildAura = Game.auraMult('Fierce Hoarder') > 0;
+		if (!CM.Cache.HadBuildAura && hasBuildAura) {
+			CM.Cache.HadBuildAura = true;
 			CM.Cache.DoRemakeBuildPrices = 1;
 		}
-		else if (CM.Cache.HadFierHoard && !hasFierHoard) {
-			CM.Cache.HadFierHoard = false;
+		else if (CM.Cache.HadBuildAura && !hasBuildAura) {
+			CM.Cache.HadBuildAura = false;
 			CM.Cache.DoRemakeBuildPrices = 1;
 		}
 
@@ -191,6 +191,9 @@ CM.Loop = function() {
 
 	// Check Golden Cookies
 	CM.Disp.CheckGoldenCookie();
+
+	// Check Fortune Cookies
+	CM.Disp.CheckTickerFortune();
 
 	// Check Season Popup
 	CM.Disp.CheckSeasonPopup();
@@ -272,6 +275,10 @@ CM.ConfigDefault = {
 	GCSoundURL: 'https://freesound.org/data/previews/66/66717_931655-lq.mp3', 
 	GCTimer: 1, 
 	Favicon: 1, 
+	FortuneFlash: 1, 
+	FortuneSound: 1,  
+	FortuneVolume: 100, 
+	FortuneSoundURL: 'https://freesound.org/data/previews/174/174027_3242494-lq.mp3',
 	SeaFlash: 1, 
 	SeaSound: 1,  
 	SeaVolume: 100, 
@@ -304,6 +311,6 @@ CM.ConfigDefault = {
 };
 CM.ConfigPrefix = 'CMConfig';
 
-CM.VersionMajor = '2.019';
-CM.VersionMinor = '1';
+CM.VersionMajor = '2.021';
+CM.VersionMinor = '2';
 
